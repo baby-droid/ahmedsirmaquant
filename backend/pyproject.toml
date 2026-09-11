@@ -1,0 +1,69 @@
+[project]
+name = "alpha-harness"
+version = "0.1.0"
+description = "Local research studio for the WorldQuant BRAIN platform"
+requires-python = ">=3.14"
+dependencies = [
+    "aiosqlite>=0.22.1",
+    "cryptography>=50.0.1",
+    "duckdb>=1.5.5",
+    "fastapi>=0.141.1",
+    "google-genai>=2.22.0",
+    "httpx>=0.28.1",
+    "optuna>=5.0.0",
+    "pyarrow>=25.0.1",
+    "pydantic>=2.13.5",
+    "pydantic-settings>=2.15.0",
+    "pyyaml>=6.0.3",
+    "sqlalchemy[asyncio]>=2.0.52",
+    "structlog>=26.1.0",
+    "uvicorn[standard]>=0.52.4",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.8,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "anyio>=4.15.1",
+    "asgi-lifespan>=2.1.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "respx>=0.23.1",
+    "types-pyyaml>=6.0.12.20260906",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-q --strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "I",        # isort
+    "N",        # pep8-naming
+    "UP",       # pyupgrade
+    "B",        # bugbear
+    "A",        # builtins shadowing
+    "C4",       # comprehensions
+    "SIM",      # simplify
+    "RUF",      # ruff-specific
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+# Exception names here read as outcomes (BrainForbidden, SubmissionFailed,
+# SyncCancelled); an "Error" suffix would make them clumsier, not clearer.
+"src/alpha_harness/brain/errors.py" = ["N818"]
+"src/alpha_harness/engine/tracker.py" = ["N818"]
+"src/alpha_harness/catalog/sync.py" = ["N818"]
+# `type_annotation_map` is SQLAlchemy's documented declarative idiom.
+"src/alpha_harness/db/models.py" = ["RUF012"]
