@@ -16,7 +16,7 @@ from sqlalchemy import func, select
 
 from ..brain.schemas import SimulationRequest
 from ..db.models import SimStatus, SimulationRecord, Study, StudyStatus, Trial, TrialState, utcnow
-from ..optimize.study import GA_SAMPLER, TASK_SAMPLERS, TEMPLATE_SAMPLER
+from ..optimize.study import GA_SAMPLER, POWER_POOL_SAMPLER, TASK_SAMPLERS, TEMPLATE_SAMPLER
 from . import ga, search
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -166,6 +166,10 @@ async def advance(optimizer: Optimizer, study_id: int) -> int:
     want = to_ask(row.batch_size, int(in_flight or 0), row.max_trials - committed)
     if row.sampler == GA_SAMPLER:
         return await _breed(optimizer, row, trials, want, waiting)
+    if row.sampler == POWER_POOL_SAMPLER:
+        from . import power_pool  # imported here: labs.power_pool builds on this module
+
+        return await power_pool.refill(optimizer, row, trials, want, waiting)
     if want <= 0:
         return 0
 

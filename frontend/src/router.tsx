@@ -63,6 +63,11 @@ const evolutionLab = createRoute({
   path: 'evolution',
   component: lazyRouteComponent(() => import('@/screens/evolution-lab'), 'EvolutionLabScreen'),
 })
+const powerPoolLab = createRoute({
+  getParentRoute: () => labs,
+  path: 'power-pool',
+  component: lazyRouteComponent(() => import('@/screens/power-pool-lab'), 'PowerPoolLabScreen'),
+})
 /** Links to the retired labs land on the lab that replaced them. */
 const retiredLab = createRoute({
   getParentRoute: () => labs,
@@ -122,7 +127,7 @@ const routeTree = root.addChildren([
   dashboard,
   matrix,
   data.addChildren([dataIndex, dataTab]),
-  labs.addChildren([labsIndex, searchLab, templateLab, evolutionLab, retiredLab]),
+  labs.addChildren([labsIndex, searchLab, templateLab, evolutionLab, powerPoolLab, retiredLab]),
   tasks,
   pool.addChildren([poolIndex, poolTab]),
   ai.addChildren([aiIndex, aiTab, aiThread]),

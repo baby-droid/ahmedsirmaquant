@@ -34,6 +34,7 @@ from .api import (
     optimize,
     pair,
     plan,
+    power_pool_lab,
     relocate,
     repair,
     search_lab,
@@ -116,6 +117,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(labs.router)
     app.include_router(search_lab.router)
     app.include_router(lab_tasks.router)
+    app.include_router(power_pool_lab.router)
     app.include_router(chat.router)
     app.include_router(ws.router)
 

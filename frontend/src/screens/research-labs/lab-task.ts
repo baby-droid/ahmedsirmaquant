@@ -24,7 +24,9 @@ export interface LabDraft {
 export const MAX_SIMULATIONS = 100_000
 
 /** A draft's market and datasets: dataset names, and the round trip to the Data Explorer to choose them. */
-export function useLabMarket(draft: LabDraft, set: (change: Partial<LabDraft>) => void, from: PickFrom) {
+type LabMarket = Pick<LabDraft, 'region' | 'delay' | 'universe' | 'datasetIds'>
+
+export function useLabMarket(draft: LabMarket, set: (change: Partial<LabMarket>) => void, from: PickFrom) {
   const navigate = useNavigate()
   const [, setDataScope] = useScope('data')
   const scope: Scope = { instrumentType: 'EQUITY', region: draft.region, delay: draft.delay, universe: draft.universe }

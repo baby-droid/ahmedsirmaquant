@@ -19,6 +19,7 @@ export const LAB_TABS = [
   { tab: 'search', label: 'Search Lab', to: '/labs/search' },
   { tab: 'template', label: 'Template Lab', to: '/labs/template' },
   { tab: 'evolution', label: 'Evolution Lab', to: '/labs/evolution' },
+  { tab: 'power-pool', label: 'LLM Power Pool Lab', to: '/labs/power-pool' },
 ] as const
 
 export const NAV = [

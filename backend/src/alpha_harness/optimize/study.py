@@ -85,11 +85,13 @@ GA_SAMPLER = "ga"
 #: Studies with this sampler write their own expressions (labs.search), asked define-by-run.
 SEARCH_SAMPLER = "search"
 TEMPLATE_SAMPLER = "template"
+POWER_POOL_SAMPLER = "power-pool"
 #: Studies that are research-lab tasks, run only from the Tasks tab, by their lab's name.
 TASK_SAMPLERS = {
     SEARCH_SAMPLER: "Search Lab",
     TEMPLATE_SAMPLER: "Template Lab",
     GA_SAMPLER: "Evolution Lab",
+    POWER_POOL_SAMPLER: "LLM Power Pool Lab",
 }
 #: Statistics the local Alpha store keeps, so objectives on them need no second BRAIN read.
 VAULT_STATS = frozenset(
@@ -387,7 +389,9 @@ class Optimizer:
 
                 # Evolution Lab breeds its own children: there is no sampler to tell.
                 told = await self._harvest(
-                    study_id, vault_first=True, tell=row.sampler != GA_SAMPLER
+                    study_id,
+                    vault_first=True,
+                    tell=row.sampler in (SEARCH_SAMPLER, TEMPLATE_SAMPLER),
                 )
                 asked = await tasks.advance(self, study_id)
             else:

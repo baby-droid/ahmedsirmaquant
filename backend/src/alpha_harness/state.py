@@ -181,6 +181,8 @@ class AppState:
             alphas=self.alphas,
             backfill=self.backfill,
         )
+        # LLM Power Pool Lab tasks call the assistant while they run.
+        self.optimizer.llm = self.llm  # type: ignore[attr-defined]
 
     # -- lifecycle -------------------------------------------------------
 

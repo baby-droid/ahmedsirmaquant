@@ -12,7 +12,7 @@ import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import type { Scope } from '@/api/types'
 
-export type PickFrom = '/labs/search' | '/labs/template'
+export type PickFrom = '/labs/search' | '/labs/template' | '/labs/power-pool'
 
 export interface PickResult {
   scope: Scope

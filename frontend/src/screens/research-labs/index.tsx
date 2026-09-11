@@ -1,13 +1,13 @@
 /** Research Labs: every lab, two by two. */
 
 import { Link } from '@tanstack/react-router'
-import { ArrowUpRightIcon, BlocksIcon, DnaIcon, FlaskConicalIcon, SearchIcon, type LucideIcon } from 'lucide-react'
+import { ArrowUpRightIcon, BlocksIcon, DnaIcon, FlaskConicalIcon, SearchIcon, ZapIcon, type LucideIcon } from 'lucide-react'
 import { LAB_TABS } from '@/shell/nav'
 import { Page, PageHeader } from '@/ui/kit'
 
 const LABS = 4
 
-const ICONS: Record<(typeof LAB_TABS)[number]['tab'], LucideIcon> = { search: SearchIcon, template: BlocksIcon, evolution: DnaIcon }
+const ICONS: Record<(typeof LAB_TABS)[number]['tab'], LucideIcon> = { search: SearchIcon, template: BlocksIcon, evolution: DnaIcon, 'power-pool': ZapIcon }
 
 const number = (index: number) => String(index + 1).padStart(2, '0')
 
