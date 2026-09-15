@@ -1,7 +1,56 @@
-modules = ["python-3.12", "nodejs-20", "web"]
+modules = ["python-3.12", "web", "nodejs-22"]
 
 [nix]
 channel = "stable-25_05"
+packages = ["uv", "gcc"]
 
 [agent]
 expertMode = true
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Alpha Harness frontend"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Alpha Harness backend"
+
+[[workflows.workflow]]
+name = "Alpha Harness frontend"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend && pnpm dev --host 0.0.0.0 --port 5000"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow]]
+name = "Alpha Harness backend"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "export LD_LIBRARY_PATH=/nix/store/d6xaahvgpwbs75jqh586a2ji49macph4-xgcc-14.2.1.20250322-lib/lib:${LD_LIBRARY_PATH:-} && cd backend && uv run uvicorn alpha_harness.main:app --host 0.0.0.0 --port 8000"
+waitForPort = 8000
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 8000
+externalPort = 8000

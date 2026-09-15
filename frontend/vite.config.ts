@@ -13,7 +13,8 @@ export default defineConfig({
     alias: { '@': path.resolve(import.meta.dirname, 'src') },
   },
   server: {
-    port: 5173,
+    host: '0.0.0.0',
+    port: 5000,
     proxy: {
       '/api': { target: BACKEND, changeOrigin: true },
       '/ws': { target: BACKEND, ws: true, changeOrigin: true },
