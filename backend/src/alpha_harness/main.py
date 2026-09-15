@@ -76,7 +76,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             await state.shutdown()
 
     app = FastAPI(
-        title="Alpha Harness",
+        title="A-SIRMA QUANT",
         description=DESCRIPTION,
         version="0.1.0",
         lifespan=lifespan,

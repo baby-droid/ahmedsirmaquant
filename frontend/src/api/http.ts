@@ -7,6 +7,8 @@
  * is folded into an `ApiError` carrying a stable `code` and a message fit to show.
  */
 
+import { BRAND_NAME } from '@/lib/brand'
+
 export interface ApiErrorBody {
   code: string
   message: string
@@ -40,7 +42,7 @@ export class ApiError extends Error {
 }
 
 function describe(status: number): string {
-  if (status === 0) return 'Cannot reach the Alpha Harness backend. Start it on port 8000 and try again.'
+  if (status === 0) return `${BRAND_NAME} services are temporarily unavailable. Reconnecting…`
   if (status >= 500) return 'The backend failed while handling that request.'
   return `The request was refused (${status}).`
 }
@@ -82,16 +84,28 @@ export function normalise(status: number, raw: unknown): ApiErrorBody {
   return { code: `http_${status}`, message: describe(status) }
 }
 
+const wait = (milliseconds: number) => new Promise((resolve) => setTimeout(resolve, milliseconds))
+
 async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
   let response: Response
-  try {
-    response = await fetch(path, {
-      method,
-      headers: body === undefined ? undefined : { 'Content-Type': 'application/json' },
-      body: body === undefined ? undefined : JSON.stringify(body),
-    })
-  } catch {
-    throw new ApiError(0, { code: 'backend_unreachable', message: describe(0) })
+  // Reads can safely retry while the coordinated Replit workflow brings the backend back.
+  // Login and write requests are intentionally not repeated: a lost response must not
+  // duplicate a credential exchange or a simulation submission.
+  const retryableRead = method === 'GET' || method === 'HEAD' || method === 'OPTIONS' || path.startsWith('/api/catalog/')
+  for (let attempt = 0; ; attempt += 1) {
+    try {
+      response = await fetch(path, {
+        method,
+        headers: body === undefined ? undefined : { 'Content-Type': 'application/json' },
+        body: body === undefined ? undefined : JSON.stringify(body),
+      })
+      break
+    } catch (error) {
+      if (!retryableRead || attempt >= 3) {
+        throw new ApiError(0, { code: 'backend_unreachable', message: describe(0) })
+      }
+      await wait(250 * 2 ** attempt)
+    }
   }
 
   if (response.status === 204) return undefined as T

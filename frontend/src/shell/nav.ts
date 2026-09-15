@@ -23,12 +23,12 @@ export const LAB_TABS = [
 ] as const
 
 export const NAV = [
-  { to: '/dashboard', area: 'dashboard', label: 'Dashboard', icon: LayoutGridIcon, tabs: [] },
-  { to: '/matrix', area: 'matrix', label: 'Simulation Matrix', icon: Grid3x3Icon, tabs: [] },
-  { to: '/data', area: 'data', label: 'Data Explorer', icon: DatabaseIcon, tabs: [] },
-  { to: '/labs', area: 'labs', label: 'Research Labs', icon: FlaskConicalIcon, tabs: LAB_TABS, nested: true },
-  { to: '/tasks', area: 'tasks', label: 'Tasks', icon: ListChecksIcon, tabs: [] },
-  { to: '/pool', area: 'pool', label: 'Alphas', icon: LayersIcon, tabs: POOL_TABS },
-  { to: '/ai', area: 'ai', label: 'LLM Integration', icon: SparklesIcon, tabs: AI_TABS },
-  { to: '/pyramids', area: 'pyramids', label: 'Sync with BRAIN', icon: RefreshCwIcon, tabs: [] },
+  { to: '/dashboard', area: 'dashboard', label: 'Dashboard', icon: LayoutGridIcon, color: '#38bdf8', tabs: [] },
+  { to: '/matrix', area: 'matrix', label: 'Simulation Matrix', icon: Grid3x3Icon, color: '#a78bfa', tabs: [] },
+  { to: '/data', area: 'data', label: 'Data Explorer', icon: DatabaseIcon, color: '#34d399', tabs: [] },
+  { to: '/labs', area: 'labs', label: 'Research Labs', icon: FlaskConicalIcon, color: '#fbbf24', tabs: LAB_TABS, nested: true },
+  { to: '/tasks', area: 'tasks', label: 'Tasks', icon: ListChecksIcon, color: '#fb923c', tabs: [] },
+  { to: '/pool', area: 'pool', label: 'Alphas', icon: LayersIcon, color: '#f472b6', tabs: POOL_TABS },
+  { to: '/ai', area: 'ai', label: 'LLM Integration', icon: SparklesIcon, color: '#e879f9', tabs: AI_TABS },
+  { to: '/pyramids', area: 'pyramids', label: 'Sync with BRAIN', icon: RefreshCwIcon, color: '#22d3ee', tabs: [] },
 ] as const

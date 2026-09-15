@@ -30,6 +30,11 @@ const queryClient = new QueryClient({
 })
 
 telemetry.connect()
+// A backend restart closes the socket before the HTTP requests notice it. Once the
+// socket is back, invalidate every screen so pages recover without a manual refresh.
+telemetry.onStatus((connected) => {
+  if (connected) void queryClient.invalidateQueries()
+})
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

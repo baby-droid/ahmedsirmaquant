@@ -2,7 +2,7 @@
  * The gate and the workspace. `GET /api/today` decides: backend down, sign-in, or work.
  */
 
-import { Suspense, useState, type ReactNode } from 'react'
+import { Suspense, useEffect, useState, type ReactNode } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Outlet } from '@tanstack/react-router'
 import { Group, Panel, useDefaultLayout } from 'react-resizable-panels'
@@ -22,6 +22,11 @@ import { SignIn } from './sign-in'
 export function Shell() {
   const query = useQuery({ queryKey: ['today'], queryFn: () => today.get() })
   useRefetchOn('session', ['today'])
+  useEffect(() => {
+    if (!query.isError) return
+    const timer = window.setInterval(() => void query.refetch(), 2500)
+    return () => window.clearInterval(timer)
+  }, [query.isError, query.refetch])
 
   if (query.isPending) {
     return (
@@ -35,11 +40,9 @@ export function Shell() {
     return (
       <div className="flex h-svh items-center justify-center p-6">
         <div className="w-full max-w-md rounded-lg border border-hairline bg-surface-1">
-          <Empty icon={<ServerCrashIcon />} title="The backend is not answering">
+          <Empty icon={<ServerCrashIcon />} title="Reconnecting to A-SIRMA QUANT">
             <p>{errorMessage(query.error)}</p>
-            <code className="mt-3 block rounded-md bg-canvas px-2 py-1.5 text-[11px] text-ink-muted">
-              cd backend && uv run uvicorn alpha_harness.main:app --reload --port 8000
-            </code>
+            <p className="mt-2 text-xs text-ink-tertiary">The page will retry automatically while the service comes back.</p>
           </Empty>
           <div className="flex justify-center border-t border-hairline p-3">
             <Button onClick={() => query.refetch()} loading={query.isFetching}>

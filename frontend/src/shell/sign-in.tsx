@@ -8,6 +8,7 @@ import { auth } from '@/api/core'
 import { ApiError } from '@/api/http'
 import { useLive } from '@/lib/live'
 import { Button, ErrorNotice, Field, Input } from '@/ui/kit'
+import { BRAND_MARK, BRAND_NAME } from '@/lib/brand'
 
 /** Larger than the in-app controls: this screen is the whole page and is read from arm's length. */
 const FIELD = '[&>span:first-child]:text-[13px]'
@@ -48,10 +49,14 @@ export function SignIn({ storedEmail }: { storedEmail: string | null }) {
     <div className="flex min-h-svh flex-col items-center justify-center p-6">
       <div className="flex w-full max-w-[480px] flex-col gap-8">
         <div className="flex items-baseline gap-3 self-center">
-          <span className="text-[30px] leading-none font-semibold text-primary" aria-hidden>
-            α
+          <span
+            className="flex size-9 items-center justify-center rounded-lg text-xl leading-none font-bold text-black shadow-[0_0_22px_rgba(167,139,250,0.35)]"
+            style={{ background: 'linear-gradient(135deg, #22d3ee 0%, #a78bfa 52%, #f472b6 100%)' }}
+            aria-hidden
+          >
+            {BRAND_MARK}
           </span>
-          <span className="text-[22px] leading-none font-medium tracking-[-0.4px]">Alpha Harness</span>
+          <span className="text-[22px] leading-none font-medium tracking-[-0.4px]">{BRAND_NAME}</span>
         </div>
 
         <form

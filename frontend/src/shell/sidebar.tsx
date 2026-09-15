@@ -14,6 +14,7 @@ import { auth } from '@/api/core'
 import { errorMessage, http } from '@/api/http'
 import type { Today } from '@/api/types'
 import { useRefetchOn } from '@/lib/ws'
+import { BRAND_MARK, BRAND_NAME } from '@/lib/brand'
 import { cx } from '@/ui/kit'
 import { Menu } from '@/ui/overlay'
 import { NAV } from './nav'
@@ -63,13 +64,16 @@ export function Sidebar({ you, collapsed }: { you: Today['you']; collapsed: bool
 
   return (
     <aside className="flex h-full min-h-0 flex-col border-r border-hairline bg-canvas">
-      <Link to="/dashboard" className={cx('flex h-12 shrink-0 items-center border-b border-hairline', collapsed ? 'justify-center' : 'px-4')} title="Alpha Harness">
-        {/* Baseline, not centre: α is an x-height glyph, so centring its box drops it below the capitals. */}
-        <span className="flex min-w-0 items-baseline gap-2.5">
-          <span className="text-lg leading-none font-semibold text-primary" aria-hidden>
-            α
+      <Link to="/dashboard" className={cx('flex h-12 shrink-0 items-center border-b border-hairline', collapsed ? 'justify-center' : 'px-4')} title={BRAND_NAME}>
+        <span className="flex min-w-0 items-center gap-2.5">
+          <span
+            className="flex size-6 shrink-0 items-center justify-center rounded-md text-[13px] leading-none font-bold text-black shadow-[0_0_16px_rgba(56,189,248,0.35)]"
+            style={{ background: 'linear-gradient(135deg, #22d3ee 0%, #a78bfa 52%, #f472b6 100%)' }}
+            aria-hidden
+          >
+            {BRAND_MARK}
           </span>
-          {!collapsed && <span className="truncate text-[13px] leading-none font-medium tracking-[-0.2px]">Alpha Harness</span>}
+          {!collapsed && <span className="truncate text-[13px] leading-none font-medium tracking-[-0.2px]">{BRAND_NAME}</span>}
         </span>
       </Link>
 
@@ -86,7 +90,7 @@ export function Sidebar({ you, collapsed }: { you: Today['you']; collapsed: bool
                 ONBOARDING.includes(item.area) && !visited.includes(item.area) && 'animate-attention text-warn motion-reduce:bg-warn/15',
               )}
             >
-              <item.icon className="size-4 shrink-0 group-data-[status=active]:text-primary" aria-hidden />
+              <item.icon className="size-4 shrink-0" style={{ color: item.color }} aria-hidden />
               {!collapsed && <span className="flex-1 truncate">{item.label}</span>}
               {!collapsed && item.area === 'pool' && total > 0 && (
                 <span className="num text-xs text-profit" title="Submittable Alphas">

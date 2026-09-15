@@ -62,7 +62,7 @@ class Prompt:
 
 #: Shared preamble. Kept separate so the three prompts cannot drift on the basics.
 COMMON = """\
-You are the research assistant inside Alpha Harness, a local tool for building trading \
+You are the research assistant inside A-SIRMA QUANT, a local tool for building trading \
 signals ("alphas") on WorldQuant's BRAIN platform.
 
 WHO YOU ARE TALKING TO
