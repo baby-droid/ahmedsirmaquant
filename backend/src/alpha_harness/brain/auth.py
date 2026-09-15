@@ -135,7 +135,7 @@ class Authenticator:
             )
         except BrainAuthError as exc:
             log.warning("brain.auth.failed", detail=exc.message)
-            return SessionInfo.anonymous(detail="Incorrect email or password.")
+            return SessionInfo.anonymous(detail=_auth_failure_detail(exc))
 
         if state.user_id is None:
             return SessionInfo.anonymous(detail="BRAIN accepted the request but returned no user.")
@@ -208,3 +208,13 @@ def _pending(url: str) -> SessionInfo:
             "then sign in again."
         ),
     )
+
+
+def _auth_failure_detail(exc: BrainAuthError) -> str:
+    """Keep the platform's safe reason instead of mislabelling every 401 as a typo."""
+    body = exc.body
+    if isinstance(body, dict):
+        detail = body.get("detail")
+        if isinstance(detail, str) and detail.strip():
+            return detail.strip()[:300]
+    return "Incorrect email or password."
