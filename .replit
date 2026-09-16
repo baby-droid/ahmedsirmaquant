@@ -46,6 +46,7 @@ for attempt in $(seq 1 60); do
   sleep 1
 done
 cd frontend
+pnpm install --frozen-lockfile
 pnpm dev --host 0.0.0.0 --port 5000"""
 waitForPort = 5000
 

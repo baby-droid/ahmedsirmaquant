@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useState, useCallback } from 'react';
-import { apiRequest, get, post, put, delete_ } from '../api/client';
+import { get, post, put, delete_ } from '../api/client';
 
 interface UseApiState<T> {
   data: T | null;
