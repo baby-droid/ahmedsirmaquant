@@ -30,5 +30,14 @@ export const NAV = [
   { to: '/tasks', area: 'tasks', label: 'Tasks', icon: ListChecksIcon, color: '#fb923c', tabs: [] },
   { to: '/pool', area: 'pool', label: 'Alphas', icon: LayersIcon, color: '#f472b6', tabs: POOL_TABS },
   { to: '/ai', area: 'ai', label: 'LLM Integration', icon: SparklesIcon, color: '#e879f9', tabs: AI_TABS },
+  {
+    to: '/quant-ai',
+    area: 'quant-ai',
+    label: 'QUANT AI',
+    icon: SparklesIcon,
+    color: '#c084fc',
+    tabs: [{ tab: 'store-booth-1', label: 'STORE BOOTH 1', to: '/quant-ai/store-booth-1' }],
+    nested: true,
+  },
   { to: '/pyramids', area: 'pyramids', label: 'Sync with BRAIN', icon: RefreshCwIcon, color: '#22d3ee', tabs: [] },
 ] as const

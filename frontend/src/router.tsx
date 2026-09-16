@@ -116,6 +116,18 @@ const aiThread = createRoute({
   component: lazyRouteComponent(() => import('@/screens/ai'), 'AiScreen'),
 })
 
+const quantAi = createRoute({
+  getParentRoute: () => root,
+  path: '/quant-ai',
+  component: lazyRouteComponent(() => import('@/screens/quant-ai'), 'QuantAiScreen'),
+})
+
+const storeBooth = createRoute({
+  getParentRoute: () => root,
+  path: '/quant-ai/store-booth-1',
+  component: lazyRouteComponent(() => import('@/screens/store-booth-1'), 'StoreBoothScreen'),
+})
+
 const pyramids = createRoute({
   getParentRoute: () => root,
   path: '/pyramids',
@@ -131,6 +143,8 @@ const routeTree = root.addChildren([
   tasks,
   pool.addChildren([poolIndex, poolTab]),
   ai.addChildren([aiIndex, aiTab, aiThread]),
+  quantAi,
+  storeBooth,
   pyramids,
 ])
 
