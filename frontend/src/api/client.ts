@@ -3,7 +3,9 @@
  * Handles all communication with the backend API
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+// Keep requests same-origin in Replit and production. Vite proxies these paths
+// during development, while the production server serves the API directly.
+const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 const API_TIMEOUT = parseInt(import.meta.env.VITE_API_TIMEOUT || '30000', 10);
 
 interface RequestOptions extends RequestInit {

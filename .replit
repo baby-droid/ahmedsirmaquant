@@ -66,7 +66,6 @@ localPort = 8000
 externalPort = 8000
 
 [deployment]
-deploymentTarget = "cloudrun"
-
-[deployment.run]
-args = ["sh", "-c", "/nix/store/hkbylipx1iiawqdcjv858p501wv81bpm-bash-interactive-5.3p3/bin/bash $file"]
+deploymentTarget = "autoscale"
+run = ["sh", "-c", "export LD_LIBRARY_PATH=/nix/store/d6xaahvgpwbs75jqh586a2ji49macph4-xgcc-14.2.1.20250322-lib/lib:${LD_LIBRARY_PATH:-}; exec uv run --directory backend python -m uvicorn alpha_harness.main:app --host 0.0.0.0 --port 5000"]
+build = ["sh", "-c", "pnpm --dir frontend install --frozen-lockfile && pnpm --dir frontend build"]

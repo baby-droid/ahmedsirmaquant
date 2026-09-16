@@ -122,6 +122,42 @@ const quantAi = createRoute({
   component: lazyRouteComponent(() => import('@/screens/quant-ai'), 'QuantAiScreen'),
 })
 
+const quantAiConnection = createRoute({
+  getParentRoute: () => root,
+  path: '/quant-ai/connection',
+  component: lazyRouteComponent(() => import('@/screens/quant-ai/flow'), 'ConnectionScreen'),
+})
+
+const quantAiCommandCenter = createRoute({
+  getParentRoute: () => root,
+  path: '/quant-ai/command-center',
+  component: lazyRouteComponent(() => import('@/screens/quant-ai/flow'), 'CommandCenterScreen'),
+})
+
+const quantAiMonitoring = createRoute({
+  getParentRoute: () => root,
+  path: '/quant-ai/monitoring',
+  component: lazyRouteComponent(() => import('@/screens/quant-ai/flow'), 'MonitoringScreen'),
+})
+
+const quantAiSettings = createRoute({
+  getParentRoute: () => root,
+  path: '/quant-ai/settings',
+  component: lazyRouteComponent(() => import('@/screens/quant-ai/flow'), 'SettingsScreen'),
+})
+
+const quantAiDataDrive = createRoute({
+  getParentRoute: () => root,
+  path: '/quant-ai/data-drive',
+  component: lazyRouteComponent(() => import('@/screens/quant-ai/flow'), 'DataDriveScreen'),
+})
+
+const quantAiTemplates = createRoute({
+  getParentRoute: () => root,
+  path: '/quant-ai/templates',
+  component: lazyRouteComponent(() => import('@/screens/quant-ai/flow'), 'TemplatesScreen'),
+})
+
 const storeBooth = createRoute({
   getParentRoute: () => root,
   path: '/quant-ai/store-booth-1',
@@ -144,6 +180,12 @@ const routeTree = root.addChildren([
   pool.addChildren([poolIndex, poolTab]),
   ai.addChildren([aiIndex, aiTab, aiThread]),
   quantAi,
+  quantAiConnection,
+  quantAiCommandCenter,
+  quantAiMonitoring,
+  quantAiSettings,
+  quantAiDataDrive,
+  quantAiTemplates,
   storeBooth,
   pyramids,
 ])

@@ -26,3 +26,10 @@ pnpm dev --host 0.0.0.0 --port 5000
 ```
 
 The backend workflow exports the system C++ library path required by DuckDB in this environment before starting Uvicorn.
+
+## Publishing
+
+The published app uses one autoscale service on port 5000. Its build runs
+`pnpm --dir frontend install --frozen-lockfile && pnpm --dir frontend build`, and
+its production process runs Uvicorn from the `backend` project with the compiled
+frontend served by FastAPI. Republish after changing the publishing configuration.

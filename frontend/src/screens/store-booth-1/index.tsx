@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from 'react'
+import { Link } from '@tanstack/react-router'
 import { toast } from 'sonner'
-import { DatabaseIcon, ExternalLinkIcon, FilePlusIcon, SearchIcon, SparklesIcon, TrashIcon, UploadCloudIcon } from 'lucide-react'
+import { ArrowRightIcon, DatabaseIcon, ExternalLinkIcon, FilePlusIcon, SearchIcon, SparklesIcon, TrashIcon, UploadCloudIcon } from 'lucide-react'
 import { Badge, Button, Empty, Field, Input, Metric, Page, PageHeader, Panel, Notice, cx } from '@/ui/kit'
 
 const MEMORY_KEY = 'quant-ai-store-booth-1'
@@ -153,7 +154,12 @@ export function StoreBoothScreen() {
           </span>
         }
         description="Add the files, documents, and source links QUANT AI should remember for future work."
-        actions={<Badge tone="outline">{sources.length} {sources.length === 1 ? 'ITEM' : 'ITEMS'} IN MEMORY</Badge>}
+        actions={
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge tone="outline">{sources.length} {sources.length === 1 ? 'ITEM' : 'ITEMS'} IN MEMORY</Badge>
+            <Button variant="primary" render={<Link to="/quant-ai/connection" />}>Sync booth 1 <ArrowRightIcon /></Button>
+          </div>
+        }
       />
 
       <Notice title="Local source memory">

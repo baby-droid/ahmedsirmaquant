@@ -12,11 +12,13 @@ from __future__ import annotations
 
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Any
 
 import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, Response
 
 from .api import (
     alphas,
@@ -134,6 +136,26 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             "activeSimulations": len(await state.tracker.active()),
             "websocketClients": state.hub.client_count,
         }
+
+    # Register the frontend fallback after every API and WebSocket route so it
+    # cannot swallow an API request in the production single-process server.
+    frontend_dist = Path(__file__).resolve().parents[3] / "frontend" / "dist"
+
+    @app.get("/", include_in_schema=False)
+    async def frontend_root() -> Response:
+        if frontend_dist.is_dir() and (frontend_dist / "index.html").is_file():
+            return FileResponse(frontend_dist / "index.html")
+        return Response(status_code=404)
+
+    @app.get("/{path:path}", include_in_schema=False)
+    async def frontend_fallback(path: str) -> Response:
+        if not frontend_dist.is_dir():
+            return Response(status_code=404)
+        requested = frontend_dist / path
+        if requested.is_file():
+            return FileResponse(requested)
+        index = frontend_dist / "index.html"
+        return FileResponse(index) if index.is_file() else Response(status_code=404)
 
     return app
 
